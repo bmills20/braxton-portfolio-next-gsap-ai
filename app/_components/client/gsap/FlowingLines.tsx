@@ -14,8 +14,7 @@ const FlowingLines = () => {
   ];
 
   return (
-    <div className='relative w-full h-screen overflow-hidden bg-gray-100'>
-      <div className='absolute inset-0 backdrop-filter backdrop-blur-sm'></div>
+    <>
       <svg
         className='absolute inset-0 w-full h-full'
         version='1.1'
@@ -36,7 +35,7 @@ const FlowingLines = () => {
           </React.Fragment>
         ))}
       </svg>
-    </div>
+    </>
   );
 };
 

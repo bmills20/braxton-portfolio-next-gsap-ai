@@ -27,9 +27,6 @@ export default function App() {
     >
       <div id='root'>
         <div className={styles.container}>
-          <Suspense fallback={<Preloader />}>
-            <PreloaderClient />
-          </Suspense>
           <LandingAboutClient />
           <FlowingLines />
         </div>
