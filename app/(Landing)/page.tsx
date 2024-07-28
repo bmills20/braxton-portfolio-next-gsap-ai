@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import Preloader from '@/app/_components/server/Preloader';
 import LandingAboutClient from '@/app/_components/client/LandingAboutClient';
+import FlowingLines from '../_components/client/gsap/FlowingLines';
 // import NavBar from '@/app/_components/NavBar/NavBar';
 // import Social from '@/app/_components/Social/Social';
 // import Landing from '@/app/_components/Landing/Landing';
@@ -19,17 +20,18 @@ const PreloaderClient = dynamic(
   }
 );
 
-export default function Home() {
+export default function App() {
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between ${styles.className} ${inter.className}`}
     >
-      <div>
+      <div id='root'>
         <div className={styles.container}>
           <Suspense fallback={<Preloader />}>
             <PreloaderClient />
           </Suspense>
           <LandingAboutClient />
+          <FlowingLines />
         </div>
       </div>
     </main>

@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import DrawSVGPlugin from 'gsap/DrawSVGPlugin';
+import { DrawSVGPlugin } from 'gsap-trial/DrawSVGPlugin';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(DrawSVGPlugin);
@@ -15,26 +15,49 @@ type LineProps = {
   className: string;
 };
 
-const Line = (props: LineProps) => {
+const Line = ({
+  pathData,
+  startColor,
+  endColor,
+  delay,
+  className,
+}: LineProps) => {
   const lineRef = useRef<SVGPathElement>(null);
 
   useEffect(() => {
     const line = lineRef.current;
+    let strokeWidth: number;
 
     if (line) {
-      gsap.set(line, { attr: { stroke: props.startColor } });
+      switch (className) {
+        case 'line1':
+          strokeWidth = 6;
+          break;
+        case 'line2':
+          strokeWidth = 8;
+          break;
+        case 'line3':
+          strokeWidth = 10;
+          break;
+        default:
+          strokeWidth = 4; // Default stroke width
+      }
+
+      gsap.set(line, {
+        attr: { stroke: startColor, 'stroke-width': strokeWidth },
+      });
 
       gsap
         .timeline({
           defaults: { duration: 2 },
           repeat: -1,
-          repeatDelay: (27 - props.delay) / 25,
+          repeatDelay: (27 - delay) / 25,
         })
         .to(
           line,
           {
             duration: 4,
-            attr: { stroke: props.endColor },
+            attr: { stroke: endColor },
             ease: 'power2.inOut',
           },
           0
@@ -43,18 +66,18 @@ const Line = (props: LineProps) => {
           line,
           { drawSVG: 0 },
           { drawSVG: '35% 70%', ease: 'sine.in', duration: 2 },
-          props.delay / 25
+          delay / 25
         )
         .to(
           line,
           { drawSVG: '100% 100%', ease: 'sine.out', duration: 2 },
-          2 + props.delay / 25
+          2 + delay / 25
         )
-        .progress(props.delay / 20);
+        .progress(delay / 20);
     }
-  }, [props.startColor, props.endColor, props.delay]);
+  }, [startColor, endColor, delay, className]);
 
-  return <path ref={lineRef} className={props.className} d={props.pathData} />;
+  return <path ref={lineRef} className={className} d={pathData} />;
 };
 
 export default Line;
