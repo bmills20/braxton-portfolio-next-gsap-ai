@@ -34,13 +34,13 @@ const Line = ({
           strokeWidth = 6;
           break;
         case 'line2':
-          strokeWidth = 8;
+          strokeWidth = 50;
           break;
         case 'line3':
-          strokeWidth = 10;
+          strokeWidth = 20;
           break;
         default:
-          strokeWidth = 4; // Default stroke width
+          strokeWidth = 6; // Default stroke width
       }
 
       gsap.set(line, {

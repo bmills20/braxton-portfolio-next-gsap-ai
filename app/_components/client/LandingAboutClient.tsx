@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap-trial';
 import { Observer } from 'gsap-trial/Observer';
@@ -24,6 +24,11 @@ interface SectionRefs {
 const Landing = () => {
   const sectionsRef = useRef<SectionRefs[]>([]);
   const backgroundImages = [image1, image2, image3, image4, image5];
+  const [imageOpacity, setImageOpacity] = useState(1);
+
+  const toggleImageOpacity = () => {
+    setImageOpacity((prev) => (prev === 1 ? 0.5 : 1));
+  };
 
   useEffect(() => {
     let currentIndex = -1;
@@ -133,19 +138,14 @@ const Landing = () => {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundImage: `url(${imageUrl})`,
+    zIndex: 1,
   });
-
-  const imageStyle: SxProps<Theme> = {
-    objectFit: 'cover',
-    objectPosition: 'center',
-  };
 
   const headingStyle: React.CSSProperties = {
     fontSize: 'clamp(1rem, 5vw, 5rem)',
-    fontWeight: 400,
+    fontWeight: 600,
     textAlign: 'center',
-    letterSpacing: '0.5em',
-    marginRight: '-0.5em',
+    letterSpacing: '0.25em',
     color: 'hsl(0, 0%, 80%)',
     width: '90vw',
     maxWidth: '1200px',
@@ -185,20 +185,28 @@ const Landing = () => {
           justifyContent: 'space-between',
           padding: '0 5%',
           width: '100%',
-          zIndex: 3,
+          zIndex: 0,
           height: '7em',
           fontFamily: '"Bebas Neue", sans-serif',
           fontSize: 'clamp(0.66rem, 2vw, 1rem)',
           letterSpacing: '0.5em',
         }}
+      />
+      <Button
+        variant='contained'
+        color='primary'
+        onClick={toggleImageOpacity}
+        sx={{ zIndex: 10 }}
       >
-        <div>Braxton Mills</div>
-        <div>
-          <Button variant='contained' color='primary'>
-            View Projects
-          </Button>
-        </div>
-      </Box>
+        Toggle Image Opacity
+      </Button>
+      {/* <div>Braxton Mills</div>
+      <div>
+        <Button variant='contained' color='primary'>
+          View Projects
+        </Button>
+      </div> */}
+
       {[
         'Hello, My name is',
         'Braxton Mills',
@@ -215,15 +223,21 @@ const Landing = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '0 5%',
-            maxWidth: '100vw',
-            width: '100vw',
+            width: '110vw',
+            fontSize: 'clamp(1rem, 5vw, 5rem)',
+            textShadow: '5px 5px 5px rgba(0, 0, 0, 0.5)',
+            zIndex: 2,
           }}
         >
           <Box
             className='outer'
             ref={createSectionRefs(index)}
-            sx={{ width: '100%', height: '100%', position: 'relative' }}
+            sx={{
+              width: '100%',
+              height: '100%',
+              position: 'relative',
+              zIndex: -1,
+            }}
           >
             <Box
               className='inner'
@@ -233,11 +247,14 @@ const Landing = () => {
               <Image
                 src={backgroundImages[index]}
                 alt={`Background ${index + 1}`}
-                fill
-                sizes='100vw'
+                layout='fill'
                 priority={index === 0}
                 ref={createSectionRefs(index)}
-                style={imageStyle as React.CSSProperties}
+                style={{
+                  filter: 'blur(0.5em)',
+                  opacity: imageOpacity,
+                  zIndex: -1,
+                }}
               />
               <Box
                 sx={{
